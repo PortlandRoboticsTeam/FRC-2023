@@ -4,7 +4,7 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.ExampleSubsystem;
+//import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.arm;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -18,15 +18,17 @@ public class goHome extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public goHome(arm m_Arm) {
-    m_Arm = subsystem;
+  public goHome(arm Arm) {
+    m_Arm = Arm ;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements();
+    addRequirements(Arm);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_Arm.moveArm(0, 0, 0);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
