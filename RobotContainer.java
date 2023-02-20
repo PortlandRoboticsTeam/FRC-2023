@@ -17,9 +17,6 @@ import edu.wpi.first.wpilibj.PS4Controller;
 //import edu.wpi.first.wpilibj.GenericHID;
 //import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 //import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -51,7 +48,7 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandPS4Controller m_driverController =
       new CommandPS4Controller(OperatorConstants.kDriverControllerPort);
-  private final PS4Controller ps4 = new PS4Controller(0);
+  //private final PS4Controller ps4 = new PS4Controller(0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. 
    * @param m_driving */
@@ -71,6 +68,7 @@ public class RobotContainer {
     configureBindings();
     
   }
+  //set the positons that all the motors go to
   public void setAllPos(int pos){
     m_wrist.position =pos;
     m_elbow.position =pos;
@@ -83,6 +81,12 @@ public class RobotContainer {
       return false;
     }
   }
+
+  public void setAllAtHome(boolean atHome){
+    m_wrist.atHome = atHome;
+    m_elbow.atHome = atHome;
+    m_Shoulder.atHome = atHome;
+  }
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
@@ -94,20 +98,38 @@ public class RobotContainer {
    */
 
   private void configureBindings() {
-     Trigger xButton = m_driverController.cross();
-     Trigger oButton = m_driverController.circle();
-     Trigger triButton = m_driverController.triangle();
-     Trigger sqrButton  = m_driverController.square();
-    if ()
-     else if (m_Joystick.getRawButton(0)){
-
-
+    //  Trigger xButton = m_driverController.cross();
+    //  Trigger oButton = m_driverController.circle();
+    //  Trigger triButton = m_driverController.triangle();
+    //  Trigger sqrButton  = m_driverController.square();
+    //sets positions
+    if (getAllAtHome()){
+      if (m_Joystick.getRawButton(1)){
+        setAllPos(1);
+        setAllAtHome(false);
+      }else if (m_Joystick.getRawButton(2)){
+        setAllPos(2);
+        setAllAtHome(false);
+      }else if (m_Joystick.getRawButton(3)){
+        setAllPos(3);
+        setAllAtHome(false);
+      }else if (m_Joystick.getRawButton(4)){
+        setAllPos(4);
+        setAllAtHome(false);
+      }else if (m_Joystick.getRawButton(5)){
+        setAllPos(5);
+        setAllAtHome(false);
+      }else if (m_Joystick.getRawButton(6)){
+        setAllPos(6);
+        setAllAtHome(false);
+      }else if (m_Joystick.getRawButton(7)){
+        setAllPos(7);
+        setAllAtHome(false);
+      }
+    }else if(m_Joystick.getRawButton(0)){
+      setAllPos(0);
+      setAllAtHome(true);
     }
-    
-    //  oButton.onTrue(m_wPickUpPos.andThen(m_ePickUpPos.andThen(m_sPickUpPos)));
-    //  triButton.onTrue(m_wmiddleConePos.andThen(m_emiddleConePos.andThen(m_smiddleConePos)));
-    //  sqrButton.onTrue(m_whumanPlayerPos.andThen(m_ehumanPlayerPos.andThen(m_shumanPlayerPos)));
-    
   }
 
 /**

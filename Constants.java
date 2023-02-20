@@ -127,34 +127,10 @@ public final class Constants {
   public static final double eTurnRateToleranceDegPerS = 0.1;
   public static final double sTurnRateToleranceDegPerS = 0.1;
 
-  public static final double wHomePos = 0;
-  public static final double eHomePos = 0;
-  public static final double sHomePos = 0;
-
-  public static final double WPickUpPos = 0;
-  public static final double EPickUpPos = 0;
-  public static final double SPickUpPos = 0;
-
-  public static final double WMiddleConePos = 0;
-  public static final double EMiddleConePos = 0;
-  public static final double SMiddleConePos = 0;
-
-  public static final double WMiddleCubePos = 0;
-  public static final double EMiddleCubePos = 0;
-  public static final double SMiddleCubePos = 0;
-
-  public static final double WHeighConePos = 0;
-  public static final double EHeighConePos = 0;
-  public static final double SHeighConePos = 0;
-
-  public static final double WHeighCubePos = 0;
-  public static final double EHeighCubePos = 0;
-  public static final double SHeighCubePos = 0;
-
-  public static final double WHumanPlayerPos = 0;
-  public static final double EHumanPlayerPos = 0;
-  public static final double SHumanPlayerPos = 0;
-
+  //pid angles
+  public static final double[] WAngels = {0,0,0,0,0,0,0};
+  public static final double[] EAngels = {0,0,0,0,0,0,0};
+  public static final double[] SAngels = {0,0,0,0,0,0,0};
   
   public static class OperatorConstants {
     public static final int kDriverControllerPort =0 ;
