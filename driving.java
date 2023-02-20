@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.Constants;
-import frc.robot.subsystems.ExampleSubsystem;
+//import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.driveTrain;
 
 import java.util.function.Supplier;
@@ -14,25 +14,25 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Subsystem;
+//import edu.wpi.first.wpilibj2.command.Subsystem;
 import static frc.robot.Constants.*;
 
 /** An example command that uses an example subsystem. */
 public class driving extends CommandBase {
   private final driveTrain m_DriveTrain;
   private final Supplier<Double> xSpdFunction,ySpdFunction,turningSpdFunction;
-  private final Supplier<Boolean>fealdOreantedFunction;
+  // private final Supplier<Boolean>fealdOreantedFunction;
   private SlewRateLimiter yLimiter;
   private SlewRateLimiter turningLimiter;
   private SlewRateLimiter xLimiter;
   public driving(driveTrain driveTrain, Supplier<Double> ySpdFunction, Supplier<Double> xSpdFunction,
-      Supplier<Double> turningSpdFunction, Supplier<Boolean> fealdOreantedFunction) {
+      Supplier<Double> turningSpdFunction) {
         
     this.m_DriveTrain = driveTrain; 
     this.xSpdFunction = xSpdFunction;
     this.ySpdFunction = ySpdFunction;
     this.turningSpdFunction = turningSpdFunction;
-    this.fealdOreantedFunction = fealdOreantedFunction;
+
     
     //limiters
     this.xLimiter = new SlewRateLimiter(Constants.maxExeleration);
@@ -40,9 +40,6 @@ public class driving extends CommandBase {
     this.turningLimiter = new SlewRateLimiter(Constants.maxAngulerExeleration);
     addRequirements(m_DriveTrain);
   }
-  
-
-
 
   // Called when the command is initially scheduled.
   @Override
@@ -66,14 +63,10 @@ public class driving extends CommandBase {
     turningSpeed = turningLimiter.calculate(turningSpeed)*teleopMaxAngulerSpeedRaidensPerSec;
     //to chassySpeed
     ChassisSpeeds chassisSpeeds;
-    if (true){
-        //to field
-        fealdOreantedFunction.get();
-        chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed,ySpeed,turningSpeed,driveTrain.getRotation2d());
-    }else{
-        //to robot
-        chassisSpeeds = new ChassisSpeeds(xSpeed,ySpeed,turningSpeed);
-    }
+    //to field
+    // fealdOreantedFunction.get();
+    chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed,ySpeed,turningSpeed,driveTrain.getRotation2d());
+    
     SwerveModuleState[] moduleStates = Constants.DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
     driveTrain.setModualeState(moduleStates);
   }
