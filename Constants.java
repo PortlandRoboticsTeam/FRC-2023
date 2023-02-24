@@ -9,6 +9,7 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -55,10 +56,13 @@ public final class Constants {
 
   public static final double MaxSpeedMetersPerSecond = 0.5;
 
-  public static final double driveEncoderRotationToMeter = 1.0;
-  public static final double driveEncoderRPM2MetersPerSecend =10;
-  public static final double turnEncoderRotationToMeter = 1.0;
-  public static final double turnEncoderRPM2MetersPerSecend = 1.0;
+  public static final double drivingGearRatio = 6.75/1;
+  public static final double turningGearRatio = 6.75/1;
+
+  public static final double driveEncoderRotationToMeter = 3.0*42*drivingGearRatio;
+  public static final double driveEncoderRPM2MetersPerSecend = driveEncoderRotationToMeter/60;
+  public static final double turnEncoderRotationToRaidens = turningGearRatio*2*Math.PI;
+  public static final double turnEncoderRPM2RadPerSecend = turnEncoderRotationToRaidens/60;
 
   public static final double pTurning = 0.5;
 
@@ -72,8 +76,8 @@ public final class Constants {
   public static final double teleopMaxSpeedMetersPerSec = 0.5;
   public static final double teleopMaxAngulerSpeedRaidensPerSec = .5*Math.PI;
 
-  public static final double trackWidth = 0.5207;
-  public static final double weelbase = 0.5969;
+  public static final double trackWidth = 0.5588;
+  public static final double weelbase = 0.508;
   public static final SwerveDriveKinematics DRIVE_KINEMATICS =  new SwerveDriveKinematics(
     new Translation2d(weelbase/2,-trackWidth/2),
     new Translation2d(weelbase/2,trackWidth/2),
