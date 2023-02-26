@@ -14,7 +14,7 @@ import static frc.robot.Constants.*;
 //import java.util.HashMap;
 
 public class shoulder extends PIDSubsystem {
-  public int position =0;
+  public int position = 0;
   CANSparkMax shoulder;
   PIDController shoulderController;
   Encoder shoulderEncoder;

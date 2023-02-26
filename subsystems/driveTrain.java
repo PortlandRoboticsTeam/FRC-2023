@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 //import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 //import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+//import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 //import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;  
 //import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -67,6 +68,9 @@ public class driveTrain extends SubsystemBase {
   );
 
   private static AHRS gyro = new AHRS(SPI.Port.kMXP);
+  // private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(Constants.DRIVE_KINEMATICS,
+  //           new Rotation2d(0),);
+
   public driveTrain() {
     new Thread(()->{
       try {

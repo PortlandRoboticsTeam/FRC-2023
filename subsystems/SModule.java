@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.CANCoder;
+//import com.revrobotics.AnalogInput;
 //import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -26,6 +27,7 @@ public class SModule {
     private PIDController turningPidController;
 
     private CANCoder canCoder;
+    //private final AnalogInput absoluteEncoder;
     private boolean absoluteEncoderReversed;
     private double absoluteEncoderOffsetRad;
 
@@ -46,8 +48,8 @@ public class SModule {
 
         driveEncoder.setPositionConversionFactor(Constants.driveEncoderRotationToMeter);
         driveEncoder.setVelocityConversionFactor(Constants.driveEncoderRPM2MetersPerSecend);
-        turningEncoder.setPositionConversionFactor(Constants.turnEncoderRotationToMeter);
-        turningEncoder.setVelocityConversionFactor(Constants.turnEncoderRPM2MetersPerSecend);
+        turningEncoder.setPositionConversionFactor(Constants.turnEncoderRotationToRaidens);
+        turningEncoder.setVelocityConversionFactor(Constants.turnEncoderRPM2RadPerSecend);
 
         turningPidController = new PIDController(Constants.pTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
