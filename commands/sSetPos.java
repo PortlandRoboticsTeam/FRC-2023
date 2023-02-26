@@ -29,7 +29,6 @@ public class sSetPos extends PIDCommand {
       ()->m_shoulder.getMeasurement(),
       //give it set point
       Constants.SAngels[m_shoulder.position],
-
       //send output to motor
       output->m_shoulder.useOutput(output,Constants.SAngels[m_shoulder.position]),
       //required subsystem
