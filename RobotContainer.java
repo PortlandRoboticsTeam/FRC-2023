@@ -9,11 +9,11 @@ import frc.robot.commands.*;
 //import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.driving;
 
-import frc.robot.subsystems.ExampleSubsystem;
+//import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.driveTrain;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PS4Controller;
+//import edu.wpi.first.wpilibj.PS4Controller;
 //import edu.wpi.first.wpilibj.GenericHID;
 //import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,16 +32,16 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  //private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final driveTrain m_driveTrain = new driveTrain();
   private final wrist m_wrist = new wrist(); 
   private final elbow m_elbow = new elbow(); 
   private final shoulder m_Shoulder = new shoulder();
   public  final driving m_driving ;
+  public final claw m_Claw = new claw();
   public final wSetPos m_WSetPos = new wSetPos(m_wrist);
   public final sSetPos m_sSetPos = new sSetPos(m_Shoulder);
   public final eSetPos m_eSetPos = new eSetPos(m_elbow);
-  public final Pos1 m_Pos1 = new Pos1(m_wrist, m_Shoulder, m_elbow);
 
   public final Joystick m_Joystick = new Joystick(0);
 
@@ -55,8 +55,8 @@ public class RobotContainer {
   public RobotContainer() {
     m_driveTrain.setDefaultCommand( m_driving = new driving(
       m_driveTrain,
-      ()->-m_driverController.getRawAxis(Constants.driverxAxis),
-      ()->m_driverController.getRawAxis(Constants.driverYAxis),
+      ()->m_driverController.getRawAxis(Constants.driverxAxis),
+      ()->-m_driverController.getRawAxis(Constants.driverYAxis),
       ()->m_driverController.getRawAxis(Constants.driverRotAxis)
       ));
 
@@ -122,13 +122,13 @@ public class RobotContainer {
       }else if (m_Joystick.getRawButton(6)){
         setAllPos(6);
         setAllAtHome(false);
-      }else if (m_Joystick.getRawButton(7)){
-        setAllPos(7);
-        setAllAtHome(false);
       }
     }else if(m_Joystick.getRawButton(0)){
       setAllPos(0);
       setAllAtHome(true);
+    }
+    if (m_Joystick.getRawButton(0)){
+      m_Claw.openClose();
     }
   }
 
