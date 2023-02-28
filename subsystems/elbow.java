@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -17,8 +18,9 @@ public class elbow extends PIDSubsystem {
   public int position =0;
   CANSparkMax elbow;
   PIDController elbowController;
-  Encoder elbowEncoder;
+  CANCoder elbowEncoder;
   double elbowSetpoint;
+  boolean disabled = false;
   private final SimpleMotorFeedforward m_elbowFeedforward =
       new SimpleMotorFeedforward(
           eVolts, eVoltSecondsPerRotation);
@@ -29,7 +31,6 @@ public class elbow extends PIDSubsystem {
   public elbow() {
     super(new PIDController(elbowP, elbowI, elbowD));
     getController().setTolerance(elbowToleranceRPS);
-    elbowEncoder.setDistancePerPulse(elbowEncoderDistancePerPulse);
     setSetpoint(elbowTargetRPS);
   }
 
@@ -48,7 +49,8 @@ public class elbow extends PIDSubsystem {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    elbow.set(elbowController.calculate(elbowEncoder.getDistance(),elbowSetpoint));
+    elbow.set(elbowController.calculate(elbowEncoder.getAbsolutePosition(),elbowSetpoint));
+    
   }
 
   @Override
@@ -58,10 +60,12 @@ public class elbow extends PIDSubsystem {
 
   @Override
   public double getMeasurement() {
-    return elbowEncoder.getRate();
+    return elbowEncoder.getAbsolutePosition();
   }
   
   public boolean atSetpoint() {
     return m_controller.atSetpoint();
   }
 }
+
+  

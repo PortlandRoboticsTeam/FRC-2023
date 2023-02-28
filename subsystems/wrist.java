@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.sensors.CANCoder;
 //import java.util.HashMap;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.controller.PIDController;
@@ -15,11 +16,8 @@ import static frc.robot.Constants.*;
 public class wrist extends PIDSubsystem {
   public int position =0;
   CANSparkMax wrist;
-  PIDController wristController; 
-  Encoder wristEncoder;
-  
-  
-
+  static PIDController wristController; 
+  CANCoder wristEncoder = new CANCoder(wristEncoderPortNum);
   public static double wristSetpoint;
   private final SimpleMotorFeedforward m_wristFeedforward =
       new SimpleMotorFeedforward(
@@ -27,11 +25,9 @@ public class wrist extends PIDSubsystem {
 
   public boolean atHome = true;
 
-  public wrist() {
-    super(new PIDController(wristP, wristI, wristD));
-    getController().setTolerance(wristToleranceRPS);
-    wristEncoder.setDistancePerPulse(wristEncoderDistancePerPulse);
-    setSetpoint(wristTargetRPS);
+  public wrist() {  
+    super(wristController = new PIDController(wristP, wristI, wristD), wristSetpoint); 
+    getController().setTolerance(wristToleranceRPS); 
   }
 
   public void setPos(double wristPoint){
@@ -54,7 +50,8 @@ public class wrist extends PIDSubsystem {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    wrist.set(wristController.calculate(wristEncoder.getDistance(),wristSetpoint));
+    wrist.set(wristController.calculate(wristEncoder.getAbsolutePosition(),wristSetpoint));
+
   }
 
   @Override
@@ -64,7 +61,7 @@ public class wrist extends PIDSubsystem {
 
   @Override
   public double getMeasurement() {
-    return wristEncoder.getRate();
+    return wristEncoder.getAbsolutePosition();
   }
 
   public boolean atSetpoint() {

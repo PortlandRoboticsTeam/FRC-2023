@@ -4,10 +4,12 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenixpro.hardware.CANcoder;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.Encoder;
+//import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import static frc.robot.Constants.*;
 
@@ -16,8 +18,8 @@ import static frc.robot.Constants.*;
 public class shoulder extends PIDSubsystem {
   public int position = 0;
   CANSparkMax shoulder;
-  PIDController shoulderController;
-  Encoder shoulderEncoder;
+  static PIDController shoulderController;
+  CANCoder shoulderEncoder = new CANCoder(shoulderEncoderPortNum);
   double shoulderSetpoint;
   private final SimpleMotorFeedforward m_shoulderFeedforward =
       new SimpleMotorFeedforward(
@@ -29,8 +31,6 @@ public class shoulder extends PIDSubsystem {
   public shoulder() {
     super(new PIDController(shoulderP, shoulderI, shoulderD));
     getController().setTolerance(shoulderToleranceRPS);
-    shoulderEncoder.setDistancePerPulse(shoulderEncoderDistancePerPulse);
-    setSetpoint(shoulderTargetRPS);
   }
 
   public void setPos(double shoulderPoint){
@@ -48,7 +48,7 @@ public class shoulder extends PIDSubsystem {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    shoulder.set(shoulderController.calculate(shoulderEncoder.getDistance(),shoulderSetpoint));
+    shoulder.set(shoulderController.calculate(shoulderEncoder.getAbsolutePosition(),shoulderSetpoint));
   }
 
   @Override
@@ -58,7 +58,7 @@ public class shoulder extends PIDSubsystem {
 
   @Override
   public double getMeasurement() {
-    return shoulderEncoder.getRate();
+    return shoulderEncoder.getAbsolutePosition();
   }
   
   public boolean atSetpoint() {
