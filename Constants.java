@@ -23,6 +23,9 @@ public final class Constants {
   public static final int wristMotorPortNum = 10;
   public static final int elbowMotorPortNum = 11;
   public static final int shoulderMotorPortNum = 12;
+  public static final int wristEncoderPortNum = 5;
+  public static final int elbowEncoderPortNum = 6;
+  public static final int shoulderEncoderPortNum = 7;
   public static final int leftFrontDrivePortNum = 1;
   public static final int rightFrontDrivePortNum = 3;
   public static final int leftBackDrivePortNum = 5;
