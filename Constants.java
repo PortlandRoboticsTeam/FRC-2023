@@ -39,18 +39,18 @@ public final class Constants {
   public static final int leftBackEncoderPortNum = 3;
   public static final int rightBackEncoderPortNum = 4;
 
-  public static final boolean leftFrontDriveEncoderReversed = false;
-  public static final boolean rightFrontDriveEncoderReversed = false;
-  public static final boolean leftBackDriveEncoderReversed = false;
-  public static final boolean rightBackDriveEncoderReversed = false;
-  public static final boolean leftFrontTurnEncoderReversed = false;
-  public static final boolean rightFrontTurnEncoderReversed = false;
-  public static final boolean leftBackTurnEncoderReversed = false;
-  public static final boolean rightBackTurnEncoderReversed = false;
-  public static final boolean leftFrontAbsoluteEncoderReversed = false;
-  public static final boolean rightFrontAbsoluteEncoderReversed = false;
-  public static final boolean leftBackAbsoluteEncoderReversed = false;
-  public static final boolean rightBackAbsoluteEncoderReversed = false;
+  public static final boolean leftFrontDriveEncoderReversed = true;
+  public static final boolean rightFrontDriveEncoderReversed = true;
+  public static final boolean leftBackDriveEncoderReversed = true;
+  public static final boolean rightBackDriveEncoderReversed = true;
+  public static final boolean leftFrontTurnEncoderReversed = true;
+  public static final boolean rightFrontTurnEncoderReversed = true;
+  public static final boolean leftBackTurnEncoderReversed = true;
+  public static final boolean rightBackTurnEncoderReversed = true;
+  public static final boolean leftFrontAbsoluteEncoderReversed = true;
+  public static final boolean rightFrontAbsoluteEncoderReversed = true;
+  public static final boolean leftBackAbsoluteEncoderReversed = true;
+  public static final boolean rightBackAbsoluteEncoderReversed = true;
 
   public static final double leftFrontAbsoluteEncoderOff = -Math.toRadians(286.347);
   public static final double rightFrontAbsoluteEncoderOff = -Math.toRadians(217.002);;
@@ -64,8 +64,8 @@ public final class Constants {
 
   public static final double driveEncoderRotationToMeter = 3.0*42*drivingGearRatio;
   public static final double driveEncoderRPM2MetersPerSecend = driveEncoderRotationToMeter/60;
-  public static final double turnEncoderRotationToRaidens = turningGearRatio*2*Math.PI;
-  public static final double turnEncoderRPM2RadPerSecend = turnEncoderRotationToRaidens/60;
+  public static final double turnEncoderRotationToRaiden = turningGearRatio*2*Math.PI;
+  public static final double turnEncoderRPM2RadPerSecend = turnEncoderRotationToRaiden/60;
 
   public static final double pTurning = 0.5;
 
