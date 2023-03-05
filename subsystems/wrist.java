@@ -7,15 +7,17 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.sensors.CANCoder;
 //import java.util.HashMap;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.Encoder;
+//import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import static frc.robot.Constants.*;
 
 public class wrist extends PIDSubsystem {
   public int position =0;
-  CANSparkMax wrist;
+  CANSparkMax wrist = new CANSparkMax(wristMotorPortNum, MotorType.kBrushless);
   static PIDController wristController; 
   CANCoder wristEncoder = new CANCoder(wristEncoderPortNum);
   public static double wristSetpoint;

@@ -6,9 +6,11 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.Encoder;
+//import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import static frc.robot.Constants.*;
 
@@ -16,9 +18,9 @@ import static frc.robot.Constants.*;
 
 public class elbow extends PIDSubsystem {
   public int position =0;
-  CANSparkMax elbow;
-  PIDController elbowController;
-  CANCoder elbowEncoder;
+  CANSparkMax elbow = new CANSparkMax(elbowMotorPortNum, MotorType.kBrushless);
+  static PIDController elbowController;
+  static CANCoder elbowEncoder = new CANCoder(elbowEncoderPortNum);
   double elbowSetpoint;
   boolean disabled = false;
   private final SimpleMotorFeedforward m_elbowFeedforward =
@@ -29,7 +31,7 @@ public class elbow extends PIDSubsystem {
   
   
   public elbow() {
-    super(new PIDController(elbowP, elbowI, elbowD));
+    super(elbowController = new PIDController(elbowP, elbowI, elbowD));
     getController().setTolerance(elbowToleranceRPS);
     setSetpoint(elbowTargetRPS);
   }
@@ -67,5 +69,3 @@ public class elbow extends PIDSubsystem {
     return m_controller.atSetpoint();
   }
 }
-
-  
