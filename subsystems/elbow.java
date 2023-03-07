@@ -5,11 +5,13 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.CANCoder;
+//import com.ctre.phoenixpro.hardware.CANcoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+//import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import static frc.robot.Constants.*;
@@ -17,23 +19,22 @@ import static frc.robot.Constants.*;
 //import java.util.HashMap;
 
 public class elbow extends PIDSubsystem {
-  public int position =0;
+  public int position = 0;
   CANSparkMax elbow = new CANSparkMax(elbowMotorPortNum, MotorType.kBrushless);
   static PIDController elbowController;
-  static CANCoder elbowEncoder = new CANCoder(elbowEncoderPortNum);
+  CANCoder elbowEncoder = new CANCoder(elbowEncoderPortNum);
   double elbowSetpoint;
-  boolean disabled = false;
-  private final SimpleMotorFeedforward m_elbowFeedforward =
-      new SimpleMotorFeedforward(
-          eVolts, eVoltSecondsPerRotation);
-
+  // private final SimpleMotorFeedforward m_elbowFeedforward =
+  //     new SimpleMotorFeedforward(
+  //         sVolts, sVoltSecondsPerRotation);
   public boolean atHome = true;
-  
-  
+  double optimised;
+
   public elbow() {
     super(elbowController = new PIDController(elbowP, elbowI, elbowD));
     getController().setTolerance(elbowToleranceRPS);
-    setSetpoint(elbowTargetRPS);
+    setSetpoint(elbowSetpoint);
+    enable();
   }
 
   public void setPos(double elbowPoint){
@@ -45,14 +46,16 @@ public class elbow extends PIDSubsystem {
 
   @Override
   public void useOutput(double output, double setpoint) {
-    elbow.setVoltage(output + m_elbowFeedforward.calculate(setpoint));
+    elbow.setVoltage(optimised =optimise(getMeasurement(),-output));//+ -1*m_elbowFeedforward.calculate(setpoint));
+    SmartDashboard.putNumber("optimised", optimised);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    elbow.set(elbowController.calculate(elbowEncoder.getAbsolutePosition(),elbowSetpoint));
     
+    SmartDashboard.putNumber("sholder position", getMeasurement());
+    super.periodic();
   }
 
   @Override
@@ -68,4 +71,16 @@ public class elbow extends PIDSubsystem {
   public boolean atSetpoint() {
     return m_controller.atSetpoint();
   }
+
+  public static double optimise(double current ,double desired){
+    var delta = desired - current;
+    if (Math.abs(delta)> Math.PI/2){
+      return desired-Math.PI;
+    }else{
+      return desired;
+    }
+  }
+
 }
+
+
