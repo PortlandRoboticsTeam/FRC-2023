@@ -6,8 +6,7 @@ package frc.robot;
 
 //import java.time.temporal.WeekFields;
 
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+
 
 
 /**
@@ -23,9 +22,9 @@ public final class Constants {
   public static final int wristMotorPortNum = 10;
   public static final int elbowMotorPortNum = 11;
   public static final int shoulderMotorPortNum = 12;
-  public static final int wristEncoderPortNum = 5;
+  public static final int wristEncoderPortNum = 7;
   public static final int elbowEncoderPortNum = 6;
-  public static final int shoulderEncoderPortNum = 7;
+  public static final int shoulderEncoderPortNum = 5;
   // public static final int leftFrontDrivePortNum = 1;
   // public static final int rightFrontDrivePortNum = 3;
   // public static final int leftBackDrivePortNum = 5;
@@ -98,13 +97,13 @@ public final class Constants {
   public static final double elbowI = 1.0; 
   public static final double elbowD = 1.0;
   
-  public static final double shoulderP = 1.0;
-  public static final double shoulderI = 1.0; 
-  public static final double shoulderD = 1.0; 
+  public static final double shoulderP = 0.03;
+  public static final double shoulderI = 0.0; 
+  public static final double shoulderD = 0.0; 
 
   public static final double wristToleranceRPS = 0.5;
   public static final double elbowToleranceRPS = 0.5;
-  public static final double shoulderToleranceRPS = 0.5;
+  public static final double shoulderToleranceRPS = 0.1;
 
   public static final double wristEncoderDistancePerPulse = 0.348;
   public static final double elbowEncoderDistancePerPulse = 0.348;
@@ -128,13 +127,16 @@ public final class Constants {
 
   public static final double wTurnRateToleranceDegPerS = 0.1;
   public static final double eTurnRateToleranceDegPerS = 0.1;
-  public static final double sTurnRateToleranceDegPerS = 0.1;
+  public static final double sTurnRateToleranceDegPerS = 0.05;
 
   public static final double zero = 0; 
   //pid angles
   public static final double[] WAngels = {0,0,0,0,0,0,0};
   public static final double[] EAngels = {0,0,0,0,0,0,0};
-  public static final double[] SAngels = {0,0,0,0,0,0,0};
+
+  //shoulder offset
+  private static final double so = 51;
+  public static final double[] SAngels = {so,so+90,so+180,so+270,so+30,so+90,so+90};
   
   public static class OperatorConstants {
     public static final int kDriverControllerPort =0 ;
@@ -160,7 +162,7 @@ public final class Constants {
 
   //random things
   public static final double speedReductionConst = 0.25;
-  public static final Boolean driveRelativeToField = false;
+  public static final Boolean driveRelativeToField = true;
   public static final double launchSpeed = 0.9;
   public static final double lowerConveyorSpeed = 0.8;
   public static final double higherConveyorSpeed = 0.6;
@@ -196,17 +198,18 @@ public final class Constants {
   public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 3; // FIXME Set front right drive motor ID
   public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 4; // FIXME Set front right steer motor ID
   public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 2; // FIXME Set front right steer encoder ID
-  public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -(Math.PI/4);//Math.toRadians(37.52930); // FIXME Measure and set front right steer offset
+  //needs a pi off
+  public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = (7*Math.PI/4);//Math.toRadians(37.52930); // FIXME Measure and set front right steer offset
 
   public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 5; // FIXME Set back left drive motor ID
   public static final int BACK_LEFT_MODULE_STEER_MOTOR = 6; // FIXME Set back left steer motor ID
   public static final int BACK_LEFT_MODULE_STEER_ENCODER = 3; // FIXME Set back left steer encoder ID
-  public static final double BACK_LEFT_MODULE_STEER_OFFSET = -(Math.PI/4);//-Math.toRadians(27.5097); // FIXME Measure and set back left steer offset
+  public static final double BACK_LEFT_MODULE_STEER_OFFSET = (7*Math.PI/4);//-Math.toRadians(27.5097); // FIXME Measure and set back left steer offset
 
   public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 7; // FIXME Set back right drive motor ID
   public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 8; // FIXME Set back right steer motor ID
   public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 4; // FIXME Set back right steer encoder ID
-  public static final double BACK_RIGHT_MODULE_STEER_OFFSET = (Math.PI/4); // FIXME Measure and set back right steer offset
+  public static final double BACK_RIGHT_MODULE_STEER_OFFSET = (1*Math.PI/4); // FIXME Measure and set back right steer offset
   
 
 }
