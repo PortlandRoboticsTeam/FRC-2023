@@ -7,19 +7,24 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.*;
 //import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.driving;
+//import frc.robot.commands.driving;
 
 //import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.driveTrain;
+import edu.wpi.first.wpilibj.GenericHID;
+//import frc.robot.subsystems.driveTrain;
 import edu.wpi.first.wpilibj.Joystick;
 //import edu.wpi.first.wpilibj.PS4Controller;
 //import edu.wpi.first.wpilibj.GenericHID;
 //import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 //import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 //import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -33,17 +38,21 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final driveTrain m_driveTrain = new driveTrain();
-  private final wrist m_wrist = new wrist(); 
-  private final elbow m_elbow = new elbow(); 
+   private final SwerveShaninigans m_driveTrain = new SwerveShaninigans();
+  // private final wrist m_wrist = new wrist(); 
+  // private final elbow m_elbow = new elbow(); 
   private final shoulder m_Shoulder = new shoulder();
-  public  final driving m_driving ;
+  public  final DefaultDriveCommand m_driving ;
   public final claw m_Claw = new claw();
-  public final wSetPos m_WSetPos = new wSetPos(m_wrist);
+  // public final wSetPos m_WSetPos = new wSetPos(m_wrist);
   public final sSetPos m_sSetPos = new sSetPos(m_Shoulder);
-  public final eSetPos m_eSetPos = new eSetPos(m_elbow);
+  // public final eSetPos m_eSetPos = new eSetPos(m_elbow);
+  public final pidComLess m_PidComLess = new pidComLess(m_Shoulder);
 
-  public final Joystick m_Joystick = new Joystick(0);
+  public final GenericHID m_Joystick = new GenericHID(0);
+
+  public final InstantCommand pos0 = new InstantCommand(()->setPos(0), m_Shoulder);//,elbow,wrist)
+  
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandPS4Controller m_driverController =
@@ -53,29 +62,30 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. 
    * @param m_driving */
   public RobotContainer() {
-    m_driveTrain.setDefaultCommand( m_driving = new driving(
+    m_driveTrain.setDefaultCommand( m_driving = new DefaultDriveCommand(
       m_driveTrain,
-      ()->m_driverController.getRawAxis(Constants.driverxAxis),
-      ()->-m_driverController.getRawAxis(Constants.driverYAxis),
-      ()->m_driverController.getRawAxis(Constants.driverRotAxis)
+      ()->m_Joystick.getRawAxis(Constants.driverxAxis),
+      ()->-m_Joystick.getRawAxis(Constants.driverYAxis),
+      ()->m_Joystick.getRawAxis(Constants.driverRotAxis)
       ));
 
     //makes the arm constinly update positions  
-    m_wrist.setDefaultCommand(m_WSetPos);
-    m_elbow.setDefaultCommand(m_eSetPos);
-    m_Shoulder.setDefaultCommand(m_sSetPos);
+    // m_wrist.setDefaultCommand(m_WSetPos);
+    // m_elbow.setDefaultCommand(m_eSetPos);
+    m_Shoulder.setDefaultCommand(m_PidComLess);
     // Configure the trigger bindings
     configureBindings();
     
   }
   //set the positons that all the motors go to
   public void setAllPos(int pos){
-    m_wrist.position =pos;
-    m_elbow.position =pos;
+    // m_wrist.position =pos;
+    // m_elbow.position =pos;
     m_Shoulder.position =pos;
   }
   public boolean getAllAtHome(){
-    if (m_wrist.atHome&&m_elbow.atHome&&m_Shoulder.atHome){
+    if (m_Shoulder.atHome){
+    // if (m_wrist.atHome&&m_elbow.atHome&&m_Shoulder.atHome){
       return true;
     }else{
       return false;
@@ -83,8 +93,8 @@ public class RobotContainer {
   }
 
   public void setAllAtHome(boolean atHome){
-    m_wrist.atHome = atHome;
-    m_elbow.atHome = atHome;
+    // m_wrist.atHome = atHome;
+    // m_elbow.atHome = atHome;
     m_Shoulder.atHome = atHome;
   }
   /**
@@ -98,40 +108,35 @@ public class RobotContainer {
    */
 
   private void configureBindings() {
-    //  Trigger xButton = m_driverController.cross();
+    JoystickButton b1 = new JoystickButton(m_Joystick, 1);
+    JoystickButton b2 = new JoystickButton(m_Joystick, 2);
+    JoystickButton b3 = new JoystickButton(m_Joystick, 3);
+    JoystickButton b4 = new JoystickButton(m_Joystick, 4);
+    JoystickButton b5 = new JoystickButton(m_Joystick, 5);
+    JoystickButton b6 = new JoystickButton(m_Joystick, 6);
+    JoystickButton b7 = new JoystickButton(m_Joystick, 7);
+    JoystickButton b8 = new JoystickButton(m_Joystick, 8);
+    JoystickButton b9 = new JoystickButton(m_Joystick, 9);
+    JoystickButton b10 = new JoystickButton(m_Joystick, 10);
+
+
+
+     //Trigger xButton = m_Joystick.get
     //  Trigger oButton = m_driverController.circle();
     //  Trigger triButton = m_driverController.triangle();
     //  Trigger sqrButton  = m_driverController.square();
     //sets positions
-    if (getAllAtHome()){
-      if (m_Joystick.getRawButton(1)){
-        setAllPos(1);
-        setAllAtHome(false);
-      }else if (m_Joystick.getRawButton(2)){
-        setAllPos(2);
-        setAllAtHome(false);
-      }else if (m_Joystick.getRawButton(3)){
-        setAllPos(3);
-        setAllAtHome(false);
-      }else if (m_Joystick.getRawButton(4)){
-        setAllPos(4);
-        setAllAtHome(false);
-      }else if (m_Joystick.getRawButton(5)){
-        setAllPos(5);
-        setAllAtHome(false);
-      }else if (m_Joystick.getRawButton(6)){
-        setAllPos(6);
-        setAllAtHome(false);
-      }
-    }else if(m_Joystick.getRawButton(0)){
-      setAllPos(0);
-      setAllAtHome(true);
-    }
-    if (m_Joystick.getRawButton(0)){
-      m_Claw.openClose();
-    }
+    
   }
 
+  public void setPos(int position){
+    if (position == 1){
+      setAllAtHome(true);
+    }else{
+      setAllAtHome(false);
+    }
+    setAllPos(position);
+  }
 /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
