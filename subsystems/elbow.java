@@ -35,6 +35,7 @@ public class elbow extends PIDSubsystem {
     getController().setTolerance(elbowToleranceRPS);
     setSetpoint(elbowSetpoint);
     enable();
+    elbow.setSmartCurrentLimit(20);
   }
 
   public void setPos(double elbowPoint){
@@ -54,7 +55,8 @@ public class elbow extends PIDSubsystem {
   public void periodic() {
     // This method will be called once per scheduler run
     
-    SmartDashboard.putNumber("sholder position", getMeasurement());
+    SmartDashboard.putNumber("elbow position", getMeasurement());
+    SmartDashboard.putNumber("ePosition number", getPosition());
     super.periodic();
   }
 
@@ -75,7 +77,7 @@ public class elbow extends PIDSubsystem {
   public static double optimise(double current ,double desired){
     var delta = desired - current;
     if (Math.abs(delta)> Math.PI/2){
-      return desired-Math.PI;
+      return desired - Math.PI;
     }else{
       return desired;
     }

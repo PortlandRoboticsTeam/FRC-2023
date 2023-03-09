@@ -32,9 +32,10 @@ public class wrist extends PIDSubsystem {
 
   public wrist() {
     super(wristController = new PIDController(wristP, wristI, wristD));
-    getController().setTolerance(shoulderToleranceRPS);
+    getController().setTolerance(wristToleranceRPS);
     setSetpoint(wristSetpoint);
     enable();
+    wrist.setSmartCurrentLimit(20);
   }
 
   public void setPos(double wristPoint){
@@ -53,8 +54,8 @@ public class wrist extends PIDSubsystem {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    
-    SmartDashboard.putNumber("sholder position", getMeasurement());
+SmartDashboard.putNumber("wrist position", getMeasurement());
+SmartDashboard.putNumber("wPosition number", getPosition());
     super.periodic();
   }
 

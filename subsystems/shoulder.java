@@ -62,6 +62,8 @@ public class shoulder extends PIDSubsystem {
     getController().setTolerance(shoulderToleranceRPS);
     setSetpoint(shoulderSetpoint);
     enable();
+    shoulder.setSmartCurrentLimit(20);
+    
   }
 
   public void setPos(double shoulderPoint){
@@ -74,31 +76,32 @@ public class shoulder extends PIDSubsystem {
   @Override
   public void useOutput(double output, double setpoint) {
     shoulder.setVoltage(optimised =optimise(getMeasurement(),-output)); //+ -1*m_shoulderFeedforward.calculate(setpoint));
-    SmartDashboard.putNumber("optimised", optimised);
+    // SmartDashboard.putNumber("optimised", optimised);
   }
 
   @Override
   public void periodic() {
     //This method will be called once per scheduler run
-    if (b1.getAsBoolean()){
-      position = 0;
-    }else if (b2.getAsBoolean()){
-      position = 1;
-    }else if (b3.getAsBoolean()){
-      position = 2;
-    }else if (b4.getAsBoolean()){
-      position = 3;
-    }else if (b5.getAsBoolean()){
-      position = 4;
-    }else if (b6.getAsBoolean()){
-      position = 5;
-    }else if (b7.getAsBoolean()){
-      position = 6;
+    // if (b1.getAsBoolean()){
+    //   position = 0;
+    // }else if (b2.getAsBoolean()){
+    //   position = 1;
+    // }else if (b3.getAsBoolean()){
+    //   position = 2;
+    // }else if (b4.getAsBoolean()){
+    //   position = 3;
+    // }else if (b5.getAsBoolean()){
+    //   position = 4;
+    // }else if (b6.getAsBoolean()){
+    //   position = 5;
+    // }else if (b7.getAsBoolean()){
+    //   position = 6;
     // }else if (b8.getAsBoolean()){
     //   position = 7;
-    }
+    // }
+
     SmartDashboard.putNumber("sholder position", getMeasurement());
-    SmartDashboard.putNumber("position number", getPosition());
+    SmartDashboard.putNumber("sPosition number", getPosition());
     super.periodic();
   }
 

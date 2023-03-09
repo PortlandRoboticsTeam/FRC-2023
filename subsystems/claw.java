@@ -10,14 +10,18 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 //import edu.wpi.first.wpilibj.simulation.SolenoidSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class claw extends SubsystemBase {
     boolean closed = false;
     Solenoid m_Solenoid = new Solenoid(PneumaticsModuleType.REVPH, 0);
-    Compressor m_Compressor = new Compressor(PneumaticsModuleType.REVPH);
+    Compressor m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
   /** Creates a new ExampleSubsystem. */
   public claw() {
     m_Solenoid.set(closed);
+    m_Compressor.enableDigital();
+    //m_Compressor.
+    //m_Compressor.enableAnalog(100, 120);
   }
 
   /**
@@ -29,14 +33,18 @@ public class claw extends SubsystemBase {
     // Query some boolean state, such as a digital sensor.
     return closed;
   }
-
+  public boolean getCompressorState(){
+    return m_Compressor.isEnabled();
+  }
   public void openClose(){
     closed = !closed;
   }
 
   @Override
   public void periodic() {
-    
+    SmartDashboard.putBoolean("closed", closed);
+    m_Solenoid.set(closed);
+    SmartDashboard.putBoolean("compresser enabled",m_Compressor.isEnabled());
   }
 
   @Override

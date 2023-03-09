@@ -9,7 +9,8 @@ package frc.robot.subsystems;
 // import com.ctre.phoenix.sensors.PigeonIMU;
 import com.kauailabs.navx.frc.AHRS;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
-import com.swervedrivespecialties.swervelib.*;
+import com.swervedrivespecialties.swervelib.SwerveModule;
+import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -76,7 +77,7 @@ public class SwerveShaninigans extends SubsystemBase {
 
   public SwerveShaninigans() {
     ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
-
+    
     // There are 4 methods you can call to create your swerve modules.
     // The method you use depends on what motors you are using.
     //
@@ -127,9 +128,7 @@ public class SwerveShaninigans extends SubsystemBase {
         BACK_RIGHT_MODULE_STEER_ENCODER,
         BACK_RIGHT_MODULE_STEER_OFFSET
         );
-
-    
-    
+        
   }
 
   /**
@@ -161,11 +160,10 @@ public class SwerveShaninigans extends SubsystemBase {
     m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
 
     //wrong inverted positions
-    SmartDashboard.putNumber("fl",m_backRightModule.getSteerAngle());
-    SmartDashboard.putNumber("fr",m_backLeftModule.getSteerAngle());
-    SmartDashboard.putNumber("bl",m_frontRightModule.getSteerAngle());
-    SmartDashboard.putNumber("br",m_frontLeftModule.getSteerAngle());
-    
+    SmartDashboard.putNumber("fl", m_backRightModule.getSteerAngle());
+    SmartDashboard.putNumber("fr", m_backLeftModule.getSteerAngle());
+    SmartDashboard.putNumber("bl", m_frontRightModule.getSteerAngle());
+    SmartDashboard.putNumber("br", m_frontLeftModule.getSteerAngle()); 
   }
 
 public Rotation2d getGyroscopeRotation() {
