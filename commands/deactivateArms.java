@@ -8,6 +8,7 @@ package frc.robot.commands;
 import frc.robot.subsystems.elbow;
 import frc.robot.subsystems.shoulder;
 import frc.robot.subsystems.wrist;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
@@ -22,7 +23,7 @@ public class deactivateArms extends CommandBase {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public deactivateArms(wrist wrist,elbow elbow,shoulder shoulder) {
+    public deactivateArms(shoulder shoulder,elbow elbow,wrist wrist) {
       m_wrist = wrist;
       m_Elbow =elbow;
       m_Shoulder = shoulder;

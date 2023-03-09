@@ -14,18 +14,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class sPidComLess extends CommandBase {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final shoulder m_shoulder;
-
     
     public sPidComLess(shoulder shoulder) {
       m_shoulder = shoulder;
       // Use addRequirements() here to declare subsystem dependencies.
       addRequirements(shoulder);
+      m_shoulder.getController().enableContinuousInput(-180, 180);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      m_shoulder.getController().disableContinuousInput();
     }
 
     // Called every time the scheduler runs while the command is scheduled.

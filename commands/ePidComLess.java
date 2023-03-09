@@ -25,13 +25,13 @@ public class ePidComLess extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      m_elbow.getController().disableContinuousInput();
+      m_elbow.getController().enableContinuousInput(-180, 180);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_elbow.useOutput(elbow.optimise(m_elbow.getMeasurement(),m_elbow.getController().calculate(m_elbow.getMeasurement(), Constants.SAngels[m_elbow.position])), Constants.SAngels[m_elbow.position]);
+        m_elbow.useOutput(elbow.optimise(m_elbow.getMeasurement(),m_elbow.getController().calculate(m_elbow.getMeasurement(), Constants.EAngels[m_elbow.position])), Constants.EAngels[m_elbow.position]);
     }
 
     // Called once the command ends or is interrupted.

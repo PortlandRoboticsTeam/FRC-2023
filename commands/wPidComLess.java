@@ -25,13 +25,13 @@ public class wPidComLess extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      m_wrist.getController().disableContinuousInput();
+      m_wrist.getController().enableContinuousInput(-180, 180);;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_wrist.useOutput(wrist.optimise(m_wrist.getMeasurement(),m_wrist.getController().calculate(m_wrist.getMeasurement(), Constants.SAngels[m_wrist.position])), Constants.SAngels[m_wrist.position]);
+        m_wrist.useOutput(wrist.optimise(m_wrist.getMeasurement(),m_wrist.getController().calculate(m_wrist.getMeasurement(), Constants.WAngels[m_wrist.position])), Constants.WAngels[m_wrist.position]);
     }
 
     // Called once the command ends or is interrupted.
