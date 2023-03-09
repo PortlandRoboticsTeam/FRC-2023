@@ -53,17 +53,18 @@ public class RobotContainer {
   public final sPidComLess m_sPidComLess = new sPidComLess(m_Shoulder);
   public final ePidComLess m_ePidComLess = new ePidComLess(m_elbow);
   public final wPidComLess m_wPidComLess = new wPidComLess(m_wrist);
-  public final deactivateArms m_DeactivateArms = new deactivateArms(m_wrist, m_elbow, m_Shoulder);
+  public final deactivateArms m_DeactivateArms = new deactivateArms(m_Shoulder,m_elbow,m_wrist);
 
-  public final InstantCommand pos1 = new InstantCommand(()->setPos(0),m_Shoulder,m_elbow,m_wrist);
-  public final InstantCommand pos2 = new InstantCommand(()->setPos(1),m_Shoulder,m_elbow,m_wrist);
-  public final InstantCommand pos3 = new InstantCommand(()->setPos(2),m_Shoulder,m_elbow,m_wrist);
-  public final InstantCommand pos4 = new InstantCommand(()->setPos(3),m_Shoulder,m_elbow,m_wrist);
-  public final InstantCommand pos5 = new InstantCommand(()->setPos(4),m_Shoulder,m_elbow,m_wrist);
-  public final InstantCommand pos6 = new InstantCommand(()->setPos(5),m_Shoulder,m_elbow,m_wrist);
-  public final InstantCommand pos7 = new InstantCommand(()->setPos(6),m_Shoulder,m_elbow,m_wrist);
+  public final InstantCommand pos1 = new InstantCommand(()->setPos(0),m_Shoulder);//,m_elbow,m_wrist);
+  public final InstantCommand pos2 = new InstantCommand(()->setPos(1),m_Shoulder);//,m_elbow,m_wrist);
+  public final InstantCommand pos3 = new InstantCommand(()->setPos(2),m_Shoulder);//,m_elbow,m_wrist);
+  public final InstantCommand pos4 = new InstantCommand(()->setPos(3),m_Shoulder);//,m_elbow,m_wrist);
+  public final InstantCommand pos5 = new InstantCommand(()->setPos(4),m_Shoulder);//,m_elbow,m_wrist);
+  public final InstantCommand pos6 = new InstantCommand(()->setPos(5),m_Shoulder);//,m_elbow,m_wrist);
+  public final InstantCommand pos7 = new InstantCommand(()->setPos(6),m_Shoulder);//,m_elbow,m_wrist);
   // public final InstantCommand pos = new InstantCommand(()->setPos(0),m_Shoulder,m_elbow,m_wrist);
   // public final InstantCommand pos = new InstantCommand(()->setPos(0),m_Shoulder,m_elbow,m_wrist);
+  public final InstantCommand openClose = new InstantCommand(()->openClose() ,m_Claw);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandPS4Controller m_driverController =
@@ -123,6 +124,7 @@ public class RobotContainer {
     m_Shoulder.position =pos;
   }
   public boolean getAllAtHome(){
+    //if (m_Shoulder.atHome&&m_elbow.atHome){
     if (m_wrist.atHome&&m_elbow.atHome&&m_Shoulder.atHome){
       return true;
     }else{
@@ -154,9 +156,32 @@ public class RobotContainer {
     JoystickButton b5 = new JoystickButton(m_Joystick, 5);
     JoystickButton b6 = new JoystickButton(m_Joystick, 6);
     JoystickButton b7 = new JoystickButton(m_Joystick, 7);
+    JoystickButton b8 = new JoystickButton(m_Joystick, 8);
+    JoystickButton b9 = new JoystickButton(m_Joystick, 9);
+    JoystickButton b10 = new JoystickButton(m_Joystick, 10);
+    JoystickButton b11 = new JoystickButton(m_Joystick, 11);
     JoystickButton b12 = new JoystickButton(m_Joystick, 12);
-    b1.onTrue(m_ZeroGyro);
-    b12.onTrue(m_DeactivateArms);
+    JoystickButton b13 = new JoystickButton(m_Joystick, 13);
+    JoystickButton b16 = new JoystickButton(m_Joystick, 16);
+
+    b1.onTrue(openClose);
+    //zero gyro
+    b2.onTrue(m_ZeroGyro);
+    //home
+    b5.onTrue(pos1);
+    //start
+    b6.onTrue(pos5);
+    //player
+    b7.onTrue(pos6);
+
+    //low mid high
+    b10.onTrue(pos2);
+    b9.onTrue(pos3);
+    b8.onTrue(pos4);
+
+    //deactivate arms
+    //b16.onTrue(m_DeactivateArms);
+
     
   
         
@@ -167,12 +192,19 @@ public class RobotContainer {
     
   }
   public void setPos(int position){
-    if (position == 1){
-      setAllAtHome(true);
-    }else{
-      setAllAtHome(false);
-    }
-    setAllPos(position);
+    // if (position == 0){
+    //   setAllAtHome(true);
+    //   setAllPos(position);
+    // }else if (getAllAtHome()){
+    //   setAllAtHome(false);
+    //   setAllPos(position);
+    // }
+    setAllPos(position); 
+    
+  }
+
+  public void openClose(){
+    m_Claw.openClose();
   }
 
 /**

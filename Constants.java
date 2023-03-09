@@ -89,20 +89,20 @@ public final class Constants {
   public static final int driverRotAxis = 4;
 
   //pid stuff
-  public static final double wristP = 1.0;
-  public static final double wristI = 1.0; 
-  public static final double wristD = 1.0; 
+  public static final double wristP = 0.05;
+  public static final double wristI = 0.0; 
+  public static final double wristD = 0.0; 
 
-  public static final double elbowP = 1.0;
-  public static final double elbowI = 1.0; 
-  public static final double elbowD = 1.0;
+  public static final double elbowP = 0.07;
+  public static final double elbowI = 0.0; 
+  public static final double elbowD = 0.0;
   
-  public static final double shoulderP = 0.03;
+  public static final double shoulderP = 0.05;
   public static final double shoulderI = 0.0; 
   public static final double shoulderD = 0.0; 
 
-  public static final double wristToleranceRPS = 0.5;
-  public static final double elbowToleranceRPS = 0.5;
+  public static final double wristToleranceRPS = 0.1;
+  public static final double elbowToleranceRPS = 0.1;
   public static final double shoulderToleranceRPS = 0.1;
 
   public static final double wristEncoderDistancePerPulse = 0.348;
@@ -127,16 +127,22 @@ public final class Constants {
 
   public static final double wTurnRateToleranceDegPerS = 0.1;
   public static final double eTurnRateToleranceDegPerS = 0.1;
-  public static final double sTurnRateToleranceDegPerS = 0.05;
+  public static final double sTurnRateToleranceDegPerS = 0.1;
 
   public static final double zero = 0; 
+
+  //home,0
   //pid angles
-  public static final double[] WAngels = {0,0,0,0,0,0,0};
-  public static final double[] EAngels = {0,0,0,0,0,0,0};
+  public static final double wo = 0;
+  public static final double[] WAngels = {wo,wo+90,wo,wo,wo,wo,wo};
+
+  //elbow offset
+  public static final double eo = 0;
+  public static final double[] EAngels = {eo,eo-20,eo+37,eo+120,eo,eo,eo};
 
   //shoulder offset
-  private static final double so = 51;
-  public static final double[] SAngels = {so,so+90,so+180,so+270,so+30,so+90,so+90};
+  private static final double so = 0;
+  public static final double[] SAngels = {so,so+43,so+60,so+116,so,so,so};
   
   public static class OperatorConstants {
     public static final int kDriverControllerPort =0 ;
