@@ -18,6 +18,10 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+ public static final double output = 24;
+
+
+
   //port nums
   public static final int wristMotorPortNum = 10;
   public static final int elbowMotorPortNum = 11;
@@ -89,21 +93,21 @@ public final class Constants {
   public static final int driverRotAxis = 4;
 
   //pid stuff
-  public static final double wristP = 0.05;
+  public static final double wristP = 0.1;//09
   public static final double wristI = 0.0; 
-  public static final double wristD = 0.0; 
+  public static final double wristD = 0.01;//007 009
 
-  public static final double elbowP = 0.07;
+  public static final double elbowP = 0.12;
   public static final double elbowI = 0.0; 
-  public static final double elbowD = 0.0;
+  public static final double elbowD = 0.01;
   
-  public static final double shoulderP = 0.05;
+  public static final double shoulderP = 0.12;
   public static final double shoulderI = 0.0; 
-  public static final double shoulderD = 0.0; 
+  public static final double shoulderD = 0.01; 
 
-  public static final double wristToleranceRPS = 0.1;
-  public static final double elbowToleranceRPS = 0.1;
-  public static final double shoulderToleranceRPS = 0.1;
+  public static final double wristToleranceRPS = 0.05;
+  public static final double elbowToleranceRPS = 0.05;
+  public static final double shoulderToleranceRPS = 0.05;
 
   public static final double wristEncoderDistancePerPulse = 0.348;
   public static final double elbowEncoderDistancePerPulse = 0.348;
@@ -117,35 +121,36 @@ public final class Constants {
   public static final double eVolts =12;
   public static final double sVolts =12;
 
-  public static final double wVoltSecondsPerRotation = 0.1;
-  public static final double eVoltSecondsPerRotation = 0.1;
-  public static final double sVoltSecondsPerRotation = 0.1;
+  public static final double wVoltSecondsPerRotation = 0.05;
+  public static final double eVoltSecondsPerRotation = 0.05;
+  public static final double sVoltSecondsPerRotation = 0.05;
 
   public static final double wTurnToleranceDeg = 0.1;
-  public static final double eTurnToleranceDeg = 0.1;
-  public static final double sTurnToleranceDeg = 0.1;
+  public static final double eTurnToleranceDeg = 0.05;
+  public static final double sTurnToleranceDeg = 0.05;
 
-  public static final double wTurnRateToleranceDegPerS = 0.1;
-  public static final double eTurnRateToleranceDegPerS = 0.1;
-  public static final double sTurnRateToleranceDegPerS = 0.1;
+  public static final double wTurnRateToleranceDegPerS = 0.05;
+  public static final double eTurnRateToleranceDegPerS = 0.05;
+  public static final double sTurnRateToleranceDegPerS = 0.05;
 
   public static final double zero = 0; 
 
   //home,0
   //pid angles
-  public static final double wo = 0;
-  public static final double[] WAngels = {wo,wo+90,wo,wo,wo,wo,wo};
+  public static final double wo = 336;
+  public static final double[] WAngels = {wo,wo+12,45,55,45,wo+23,wo,wo};
 
   //elbow offset
-  public static final double eo = 0;
-  public static final double[] EAngels = {eo,eo-20,eo+37,eo+120,eo,eo,eo};
+  public static final double eo = 260;
+  public static final double[] EAngels = {eo-50,eo-51,eo+10,eo+74,eo-17,eo,eo};
 
   //shoulder offset
   private static final double so = 0;
-  public static final double[] SAngels = {so,so+43,so+60,so+116,so,so,so};
+  public static final double[] SAngels = {so-19,so+30,so+40,so+90,so,so,so};//116s
   
   public static class OperatorConstants {
-    public static final int kDriverControllerPort =0 ;
+    public static final int kDriverControllerPort = 0 ;
+    public static final int kArmControllerPort = 1 ;
 
     
 
@@ -167,8 +172,8 @@ public final class Constants {
   public static final int pcmPortNum = 1;
 
   //random things
-  public static final double speedReductionConst = 0.25;
-  public static final Boolean driveRelativeToField = true;
+  
+  public static final Boolean driveRelativeToField = false;
   public static final double launchSpeed = 0.9;
   public static final double lowerConveyorSpeed = 0.8;
   public static final double higherConveyorSpeed = 0.6;

@@ -21,13 +21,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 //import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 //import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Robot;
 
 
 /**
@@ -39,29 +42,33 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final SwerveShaninigans m_DrivetrainSubsystem = new SwerveShaninigans();
-  private final wrist m_wrist = new wrist(); 
-  private final elbow m_elbow = new elbow(); 
-  private final shoulder m_Shoulder = new shoulder();
+  public final SwerveShaninigans m_DrivetrainSubsystem = new SwerveShaninigans();
+  public final static wrist m_wrist = new wrist(); 
+  public final static elbow m_elbow = new elbow(); 
+  public final static shoulder m_Shoulder = new shoulder();
   //public  final driving m_driving ;
   public final claw m_Claw = new claw();
   //public final wSetPos m_WSetPos = new wSetPos(m_wrist);
   //public final sSetPos m_sSetPos = new sSetPos(m_Shoulder);
   //public final eSetPos m_eSetPos = new eSetPos(m_elbow);
+  //public final bal
   public final ZeroGyro m_ZeroGyro = new ZeroGyro(m_DrivetrainSubsystem);
-  public final GenericHID m_Joystick = new GenericHID(OperatorConstants.kDriverControllerPort);
+  public final GenericHID m_Joystick = new GenericHID(OperatorConstants.kArmControllerPort);
   public final sPidComLess m_sPidComLess = new sPidComLess(m_Shoulder);
   public final ePidComLess m_ePidComLess = new ePidComLess(m_elbow);
   public final wPidComLess m_wPidComLess = new wPidComLess(m_wrist);
-  public final deactivateArms m_DeactivateArms = new deactivateArms(m_Shoulder,m_elbow,m_wrist);
+  // public final deactivateArms m_DeactivateArms = new deactivateArms(m_Shoulder,m_elbow,m_wrist);
+  public final firstAuto m_FirstAuto = new firstAuto(m_DrivetrainSubsystem);
+  public final simpleAuto m_sSimpleAuto = new simpleAuto(m_DrivetrainSubsystem);
+  public double speedReduction = 1;
 
-  public final InstantCommand pos1 = new InstantCommand(()->setPos(0),m_Shoulder);//,m_elbow,m_wrist);
-  public final InstantCommand pos2 = new InstantCommand(()->setPos(1),m_Shoulder);//,m_elbow,m_wrist);
-  public final InstantCommand pos3 = new InstantCommand(()->setPos(2),m_Shoulder);//,m_elbow,m_wrist);
-  public final InstantCommand pos4 = new InstantCommand(()->setPos(3),m_Shoulder);//,m_elbow,m_wrist);
-  public final InstantCommand pos5 = new InstantCommand(()->setPos(4),m_Shoulder);//,m_elbow,m_wrist);
-  public final InstantCommand pos6 = new InstantCommand(()->setPos(5),m_Shoulder);//,m_elbow,m_wrist);
-  public final InstantCommand pos7 = new InstantCommand(()->setPos(6),m_Shoulder);//,m_elbow,m_wrist);
+  public final InstantCommand pos1 = new InstantCommand(()->setPos(0),m_Shoulder,m_elbow,m_wrist);
+  public final InstantCommand pos2 = new InstantCommand(()->setPos(1),m_Shoulder,m_elbow,m_wrist);
+  public final InstantCommand pos3 = new InstantCommand(()->setPos(2),m_Shoulder,m_elbow,m_wrist);
+  public final InstantCommand pos4 = new InstantCommand(()->setPos(3),m_Shoulder,m_elbow,m_wrist);
+  public final InstantCommand pos5 = new InstantCommand(()->setPos(4),m_Shoulder,m_elbow,m_wrist);
+  public final InstantCommand pos6 = new InstantCommand(()->setPos(5),m_Shoulder,m_elbow,m_wrist);
+  public final InstantCommand pos7 = new InstantCommand(()->setPos(6),m_Shoulder,m_elbow,m_wrist);
   // public final InstantCommand pos = new InstantCommand(()->setPos(0),m_Shoulder,m_elbow,m_wrist);
   // public final InstantCommand pos = new InstantCommand(()->setPos(0),m_Shoulder,m_elbow,m_wrist);
   public final InstantCommand openClose = new InstantCommand(()->openClose() ,m_Claw);
@@ -98,14 +105,14 @@ public class RobotContainer {
     m_DrivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
       m_DrivetrainSubsystem,
       //For PS4/5 controller
-      // () -> -(smoothLogisticInput(m_driverController.getLeftX(), true) * SwerveShaninigans.MAX_VELOCITY_METERS_PER_SECOND * Constants.speedReductionConst),
-      // () -> (smoothLogisticInput(m_driverController.getLeftY(), true) * SwerveShaninigans.MAX_VELOCITY_METERS_PER_SECOND * Constants.speedReductionConst),
-      // () -> (smoothLogisticInput(m_driverController.getRightX(), true) * SwerveShaninigans.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.speedReductionConst)
+      () -> -((smoothLogisticInput(m_driverController.getLeftX(), true)+ Robot.rotationSpeed) * SwerveShaninigans.MAX_VELOCITY_METERS_PER_SECOND * speedReduction),
+      () -> ((smoothLogisticInput(m_driverController.getLeftY(), true)+ -Robot.forwardSpeed) * SwerveShaninigans.MAX_VELOCITY_METERS_PER_SECOND * speedReduction),
+      () -> ((smoothLogisticInput(m_driverController.getRightX(), true)) * SwerveShaninigans.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * speedReduction)
 
       //For Joystick
-      () -> -(smoothLogisticInput(m_Joystick.getRawAxis(0), true) * SwerveShaninigans.MAX_VELOCITY_METERS_PER_SECOND * Constants.speedReductionConst),
-      () -> (smoothLogisticInput(m_Joystick.getRawAxis(1), true) * SwerveShaninigans.MAX_VELOCITY_METERS_PER_SECOND * Constants.speedReductionConst),
-      () -> (smoothLogisticInput(m_Joystick.getRawAxis(2), true) * SwerveShaninigans.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.speedReductionConst)
+      // () -> -(smoothLogisticInput(m_Joystick.getRawAxis(0), true) * SwerveShaninigans.MAX_VELOCITY_METERS_PER_SECOND * speedReduction),
+      // () -> (smoothLogisticInput(m_Joystick.getRawAxis(1), true) * SwerveShaninigans.MAX_VELOCITY_METERS_PER_SECOND * speedReduction),
+      // () -> (smoothLogisticInput(m_Joystick.getRawAxis(2), true) * SwerveShaninigans.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * speedReduction)
 ));
     // Configure the trigger bindings
     configureBindings();
@@ -124,7 +131,7 @@ public class RobotContainer {
     m_Shoulder.position =pos;
   }
   public boolean getAllAtHome(){
-    //if (m_Shoulder.atHome&&m_elbow.atHome){
+    // if (m_Shoulder.atHome){
     if (m_wrist.atHome&&m_elbow.atHome&&m_Shoulder.atHome){
       return true;
     }else{
@@ -163,10 +170,11 @@ public class RobotContainer {
     JoystickButton b12 = new JoystickButton(m_Joystick, 12);
     JoystickButton b13 = new JoystickButton(m_Joystick, 13);
     JoystickButton b16 = new JoystickButton(m_Joystick, 16);
+    Trigger rb = m_driverController.R1();
 
     b1.onTrue(openClose);
     //zero gyro
-    b2.onTrue(m_ZeroGyro);
+    rb.onTrue(m_ZeroGyro);
     //home
     b5.onTrue(pos1);
     //start
@@ -183,23 +191,29 @@ public class RobotContainer {
     //b16.onTrue(m_DeactivateArms);
 
     
-  
-        
-      // Trigger triButton = m_driverController.triangle();
-      // Trigger sqrButton  = m_driverController.square();
-    //xButton.onTrue(m_ZeroGyro);
-    //sqrButton.onTrue(m_ZeroGyro);
-    
+        Trigger rightTrigger = m_driverController.R2();
+        Trigger povUp = m_driverController.povUp();
+        Trigger povDown  = m_driverController.povDown();
+       Trigger povLeft = m_driverController.povLeft();
+       Trigger povRight  = m_driverController.povRight();
+       Trigger leftBumper = m_driverController.L1();
+
+       rightTrigger.onTrue(openClose); 
+       povUp.onTrue(pos4);
+        povLeft.onTrue(pos3);
+        povDown.onTrue(pos2);
+        povRight.onTrue(pos1);
+        leftBumper.onTrue(pos6);
   }
   public void setPos(int position){
-    // if (position == 0){
-    //   setAllAtHome(true);
-    //   setAllPos(position);
-    // }else if (getAllAtHome()){
-    //   setAllAtHome(false);
-    //   setAllPos(position);
-    // }
-    setAllPos(position); 
+    if (position == 0){
+      setAllAtHome(true);
+      setAllPos(position);
+    }else if (getAllAtHome()){
+      setAllAtHome(false);
+      setAllPos(position);
+    }
+    // setAllPos(position); 
     
   }
 
@@ -213,6 +227,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return null;
+    //return m_FirstAuto;
+    return new SequentialCommandGroup(openClose,m_sSimpleAuto);
   }
  }
