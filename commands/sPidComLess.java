@@ -30,7 +30,7 @@ public class sPidComLess extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_shoulder.useOutput(shoulder.optimise(m_shoulder.getMeasurement(),  m_shoulder.getController().calculate(m_shoulder.getMeasurement(), Constants.SAngels[m_shoulder.position])), Constants.SAngels[m_shoulder.position]);
+       m_shoulder.useOutput(shoulder.optimise(m_shoulder.getMeasurement(),  m_shoulder.getController().calculate(m_shoulder.getMeasurement(), Constants.SAngels[m_shoulder.position])), Constants.SAngels[m_shoulder.position]);
     }
 
     // Called once the command ends or is interrupted.
