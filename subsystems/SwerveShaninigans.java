@@ -10,6 +10,8 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
+import com.swervedrivespecialties.swervelib.Mk3ModuleConfiguration;
+import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
 import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -21,6 +23,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.SPI;
 
 
@@ -70,13 +73,78 @@ public class SwerveShaninigans extends SubsystemBase {
   private final SwerveModule m_backLeftModule;
   private final SwerveModule m_backRightModule;
         
-
+  private final Mk4ModuleConfiguration config = new Mk4ModuleConfiguration();
 
 
   private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
+  // BuiltInAccelerometer mRioAccel = new BuiltInAccelerometer();
+  // private int state = 0;
+  // private int debounceCount = 0;
+
+  //       /**********
+  //        * CONFIG *
+  //        **********/
+  //       // Speed the robot drived while scoring/approaching station, default = 0.4
+  //       private double robotSpeedFast = 0.4;
+
+  //       // Speed the robot drives while balancing itself on the charge station.
+  //       // Should be roughly half the fast speed, to make the robot more accurate,
+  //       // default = 0.2
+  //       private double robotSpeedSlow = 0.2;
+
+  //       // Angle where the robot knows it is on the charge station, default = 13.0
+  //       private double onChargeStationDegree = 13.0;
+
+  //       // Angle where the robot can assume it is level on the charging station
+  //       // Used for exiting the drive forward sequence as well as for auto balancing,
+  //       // default = 6.0
+  //       private double levelDegree = 6.0;
+
+  //       // Amount of time a sensor condition needs to be met before changing states in
+  //       // seconds
+  //       // Reduces the impact of sensor noice, but too high can make the auto run
+  //       // slower, default = 0.2
+  //       private double debounceTime = 0.2;
+
+  //       // Amount of time to drive towards to scoring target when trying to bump the
+  //       // game piece off
+  //       // Time it takes to go from starting position to hit the scoring target
+  //       private double singleTapTime = 0.4;
+
+  //       // Amount of time to drive away from knocked over gamepiece before the second
+  //       // tap
+  //       private double scoringBackUpTime = 0.2;
+
+  //       // Amount of time to drive forward to secure the scoring of the gamepiece
+  //       private double doubleTapTime = 0.3;
+
+  // public double getPitch() {
+  //   return Math.atan2((-mRioAccel.getX()),
+  //     Math.sqrt(mRioAccel.getY() * mRioAccel.getY() + mRioAccel.getZ() * mRioAccel.getZ())) * 57.3;
+  //   }
+  
+  // public double getRoll() {
+  //   return Math.atan2(mRioAccel.getY(), mRioAccel.getZ()) * 57.3;
+  // }
+  // public double getTilt() {
+  //   double pitch = getPitch();
+  //   double roll = getRoll();
+  //   if ((pitch + roll) >= 0) {
+  //       return Math.sqrt(pitch * pitch + roll * roll);
+  //   } else {
+  //       return -Math.sqrt(pitch * pitch + roll * roll);
+  //   }
+  // }
+
+  // public int secondsToTicks(double time) {
+  //   return (int) (time * 50);
+  // }
+
   public SwerveShaninigans() {
     ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
+    config.setDriveCurrentLimit(30);
+    config.setSteerCurrentLimit(20);
     
     // There are 4 methods you can call to create your swerve modules.
     // The method you use depends on what motors you are using.
@@ -98,22 +166,20 @@ public class SwerveShaninigans extends SubsystemBase {
     // By default we will use Falcon 500s in standard configuration. But if you use a different configuration or motors
     // you MUST change it. If you do not, your code will crash on startup.
     // FIXME Setup motor configuration
-    m_frontLeftModule = Mk4iSwerveModuleHelper.createNeo(
-        Mk4iSwerveModuleHelper.GearRatio.L2,
-        FRONT_LEFT_MODULE_DRIVE_MOTOR,
-        FRONT_LEFT_MODULE_STEER_MOTOR,
-        FRONT_LEFT_MODULE_STEER_ENCODER,
-        FRONT_LEFT_MODULE_STEER_OFFSET
-        );
-
-    m_backLeftModule = Mk4iSwerveModuleHelper.createNeo(
+    m_frontLeftModule = Mk4iSwerveModuleHelper.createNeo(config, Mk4iSwerveModuleHelper.GearRatio.L2, 
+    FRONT_LEFT_MODULE_DRIVE_MOTOR,
+    FRONT_LEFT_MODULE_STEER_MOTOR,
+    FRONT_LEFT_MODULE_STEER_ENCODER,
+    FRONT_LEFT_MODULE_STEER_OFFSET);
+        
+    m_backLeftModule = Mk4iSwerveModuleHelper.createNeo(config,
         Mk4iSwerveModuleHelper.GearRatio.L2,
         FRONT_RIGHT_MODULE_DRIVE_MOTOR,
         FRONT_RIGHT_MODULE_STEER_MOTOR,
         FRONT_RIGHT_MODULE_STEER_ENCODER,
         FRONT_RIGHT_MODULE_STEER_OFFSET
         );
-    m_frontRightModule = Mk4iSwerveModuleHelper.createNeo(
+    m_frontRightModule = Mk4iSwerveModuleHelper.createNeo(config,
         Mk4iSwerveModuleHelper.GearRatio.L2,
         BACK_LEFT_MODULE_DRIVE_MOTOR,
         BACK_LEFT_MODULE_STEER_MOTOR,
@@ -121,7 +187,7 @@ public class SwerveShaninigans extends SubsystemBase {
         BACK_LEFT_MODULE_STEER_OFFSET
         );
 
-    m_backRightModule = Mk4iSwerveModuleHelper.createNeo(
+    m_backRightModule = Mk4iSwerveModuleHelper.createNeo(config,
         Mk4iSwerveModuleHelper.GearRatio.L2,
         BACK_RIGHT_MODULE_DRIVE_MOTOR,
         BACK_RIGHT_MODULE_STEER_MOTOR,
@@ -166,7 +232,11 @@ public class SwerveShaninigans extends SubsystemBase {
     SmartDashboard.putNumber("br", m_frontLeftModule.getSteerAngle()); 
   }
 
-public Rotation2d getGyroscopeRotation() {
+  public Rotation2d getGyroscopeRotation() {
         return m_navx.getRotation2d();
-};
+  };
+
+  // public  getOdomentery(){
+  //   return
+  // }
 }

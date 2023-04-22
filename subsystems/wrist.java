@@ -34,7 +34,7 @@ public class wrist extends PIDSubsystem {
     super(wristController = new PIDController(wristP, wristI, wristD));
     getController().setTolerance(wristToleranceRPS);
     setSetpoint(wristSetpoint);
-    enable();
+    disable();
     wrist.setSmartCurrentLimit(20);
   }
 
@@ -80,6 +80,9 @@ SmartDashboard.putNumber("wPosition number", getPosition());
     }else{
       return desired;
     }
+  }
+  public void wSetVolatge(){
+    wrist.setVoltage(2.);
   }
 
 }

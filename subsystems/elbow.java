@@ -34,7 +34,7 @@ public class elbow extends PIDSubsystem {
     super(elbowController = new PIDController(elbowP, elbowI, elbowD));
     getController().setTolerance(elbowToleranceRPS);
     setSetpoint(elbowSetpoint);
-    enable();
+    disable();
     elbow.setSmartCurrentLimit(20);
   }
 
@@ -81,6 +81,10 @@ public class elbow extends PIDSubsystem {
     }else{
       return desired;
     }
+  }
+
+  public void wSetVolatge(){
+    elbow.setVoltage(2.);
   }
 
 }

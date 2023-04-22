@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 //import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants;
 
 import static frc.robot.Constants.*;
 
@@ -26,18 +27,19 @@ import java.util.function.BooleanSupplier;
 
 //import java.util.HashMap;
 
-public class shoulder extends PIDSubsystem {
+public class shoulder extends PIDSubsystem{
   public int position = 0;
   CANSparkMax shoulder = new CANSparkMax(shoulderMotorPortNum, MotorType.kBrushless);
   static PIDController shoulderController;
   CANCoder shoulderEncoder = new CANCoder(shoulderEncoderPortNum);
   double shoulderSetpoint;
+  public boolean derection;
   // private final SimpleMotorFeedforward m_shoulderFeedforward =
   //     new SimpleMotorFeedforward(
   //         sVolts, sVoltSecondsPerRotation);
   public boolean atHome = true;
   double optimised;
-  private GenericHID m_Joystick = new GenericHID(0);
+  //private GenericHID m_Joystick = new GenericHID(0);
   
 
   //all value commands
@@ -45,17 +47,17 @@ public class shoulder extends PIDSubsystem {
   // Command sChangePos1 = new InstantCommand(()-> setPos(1));
   // Command sChangePos2 = new InstantCommand(()-> setPos(2));
   // Command sChangePos3 = new InstantCommand(()-> setPos(3));
-  // Command sChangePos4 = new InstantCommand(()-> setPos(4));
-  // Command sChangePos5 = new InstantCommand(()-> setPos(5));
-  JoystickButton b1 = new JoystickButton(m_Joystick, 1);
-  JoystickButton b2 = new JoystickButton(m_Joystick, 2);
-  JoystickButton b3 = new JoystickButton(m_Joystick, 3);
-  JoystickButton b4 = new JoystickButton(m_Joystick, 4);
-  JoystickButton b5 = new JoystickButton(m_Joystick, 5);
-  JoystickButton b6 = new JoystickButton(m_Joystick, 6);
-  JoystickButton b7 = new JoystickButton(m_Joystick, 7);
-  JoystickButton b8 = new JoystickButton(m_Joystick, 8);
-  JoystickButton b12 = new JoystickButton(m_Joystick, 12);
+  // // Command sChangePos4 = new InstantCommand(()-> setPos(4));
+  // // Command sChangePos5 = new InstantCommand(()-> setPos(5));
+  // JoystickButton b1 = new JoystickButton(m_Joystick, 1);
+  // JoystickButton b2 = new JoystickButton(m_Joystick, 2);
+  // JoystickButton b3 = new JoystickButton(m_Joystick, 3);
+  // JoystickButton b4 = new JoystickButton(m_Joystick, 4);
+  // JoystickButton b5 = new JoystickButton(m_Joystick, 5);
+  // JoystickButton b6 = new JoystickButton(m_Joystick, 6);
+  // JoystickButton b7 = new JoystickButton(m_Joystick, 7);
+  // JoystickButton b8 = new JoystickButton(m_Joystick, 8);
+  // JoystickButton b12 = new JoystickButton(m_Joystick, 12);
 
   public shoulder() {
     super(shoulderController = new PIDController(shoulderP, shoulderI, shoulderD));
@@ -63,6 +65,7 @@ public class shoulder extends PIDSubsystem {
     setSetpoint(shoulderSetpoint);
     enable();
     shoulder.setSmartCurrentLimit(20);
+    disable();
     
   }
 
@@ -76,10 +79,10 @@ public class shoulder extends PIDSubsystem {
   @Override
   public void useOutput(double output, double setpoint) {
     shoulder.setVoltage(optimised =optimise(getMeasurement(),-output)); //+ -1*m_shoulderFeedforward.calculate(setpoint));
-    // SmartDashboard.putNumber("optimised", optimised);
+    SmartDashboard.putNumber("optimised", optimised);
   }
 
-  @Override
+//  @Override
   public void periodic() {
     //This method will be called once per scheduler run
     // if (b1.getAsBoolean()){
@@ -105,7 +108,7 @@ public class shoulder extends PIDSubsystem {
     super.periodic();
   }
 
-  @Override
+  // @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
   }
@@ -128,6 +131,24 @@ public class shoulder extends PIDSubsystem {
     }
   }
 
+  public void sSetVolatge(boolean derection){
+    if (derection){
+      shoulder.set(Constants.output);
+    }else{
+    shoulder.set(-Constants.output);
+    }
+  }
+
+  public
+  void up() {
+    shoulder.set(0.6);
+  }
+
+  public void down() {
+    shoulder.set(-0.6);
+  }
+
+  public void stop() { shoulder.set(0); }
 }
 
 

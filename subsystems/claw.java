@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class claw extends SubsystemBase {
     boolean closed = false;
-    Solenoid m_Solenoid = new Solenoid(PneumaticsModuleType.REVPH, 0);
-    Compressor m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
+    Compressor m_Compressor = new Compressor(21, PneumaticsModuleType.REVPH);
+    Solenoid m_Solenoid = new Solenoid(21, PneumaticsModuleType.REVPH, 0);
   /** Creates a new ExampleSubsystem. */
   public claw() {
     m_Solenoid.set(closed);
