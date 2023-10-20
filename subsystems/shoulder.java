@@ -41,24 +41,6 @@ public class shoulder extends PIDSubsystem{
   double optimised;
   //private GenericHID m_Joystick = new GenericHID(0);
   
-
-  //all value commands
-  // Command sChangePos0 = new InstantCommand(()-> setPos(0));
-  // Command sChangePos1 = new InstantCommand(()-> setPos(1));
-  // Command sChangePos2 = new InstantCommand(()-> setPos(2));
-  // Command sChangePos3 = new InstantCommand(()-> setPos(3));
-  // // Command sChangePos4 = new InstantCommand(()-> setPos(4));
-  // // Command sChangePos5 = new InstantCommand(()-> setPos(5));
-  // JoystickButton b1 = new JoystickButton(m_Joystick, 1);
-  // JoystickButton b2 = new JoystickButton(m_Joystick, 2);
-  // JoystickButton b3 = new JoystickButton(m_Joystick, 3);
-  // JoystickButton b4 = new JoystickButton(m_Joystick, 4);
-  // JoystickButton b5 = new JoystickButton(m_Joystick, 5);
-  // JoystickButton b6 = new JoystickButton(m_Joystick, 6);
-  // JoystickButton b7 = new JoystickButton(m_Joystick, 7);
-  // JoystickButton b8 = new JoystickButton(m_Joystick, 8);
-  // JoystickButton b12 = new JoystickButton(m_Joystick, 12);
-
   public shoulder() {
     super(shoulderController = new PIDController(shoulderP, shoulderI, shoulderD));
     getController().setTolerance(shoulderToleranceRPS);
@@ -150,5 +132,3 @@ public class shoulder extends PIDSubsystem{
 
   public void stop() { shoulder.set(0); }
 }
-
-

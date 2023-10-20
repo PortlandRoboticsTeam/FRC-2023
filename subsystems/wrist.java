@@ -86,5 +86,3 @@ SmartDashboard.putNumber("wPosition number", getPosition());
   }
 
 }
-
-
