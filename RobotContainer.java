@@ -46,29 +46,29 @@ public class RobotContainer {
   public final static wrist m_wrist = new wrist(); 
   public final static elbow m_elbow = new elbow(); 
   public final static shoulder m_Shoulder = new shoulder();
-  //public  final driving m_driving ;
+  public  final DefaultDriveCommand m_driving ;
   public final claw m_Claw = new claw();
-  //public final wSetPos m_WSetPos = new wSetPos(m_wrist);
-  //public final sSetPos m_sSetPos = new sSetPos(m_Shoulder);
-  //public final eSetPos m_eSetPos = new eSetPos(m_elbow);
+  public final wPid m_WSetPos = new wPid(m_wrist);
+  public final sPid m_sSetPos = new sPid(m_Shoulder);
+  public final ePid m_eSetPos = new ePid(m_elbow);
   //public final bal
   public final ZeroGyro m_ZeroGyro = new ZeroGyro(m_DrivetrainSubsystem);
   public final GenericHID m_Joystick = new GenericHID(OperatorConstants.kArmControllerPort);
-  public final sPidComLess m_sPidComLess = new sPidComLess(m_Shoulder);
-  public final ePidComLess m_ePidComLess = new ePidComLess(m_elbow);
-  public final wPidComLess m_wPidComLess = new wPidComLess(m_wrist);
-  // public final deactivateArms m_DeactivateArms = new deactivateArms(m_Shoulder,m_elbow,m_wrist);
+  public final sPid m_sPidComLess = new sPid(m_Shoulder);
+  public final ePid m_ePidComLess = new ePid(m_elbow);
+  public final wPid m_wPidComLess = new wPid(m_wrist);
+  //public final deactivateArms m_DeactivateArms = new deactivateArms(m_Shoulder,m_elbow,m_wrist);
   public final firstAuto m_FirstAuto = new firstAuto(m_DrivetrainSubsystem);
   public final simpleAuto m_sSimpleAuto = new simpleAuto(m_DrivetrainSubsystem);
   public double speedReduction = 1;
 
-  public final InstantCommand pos1 = new InstantCommand(()->setPos(0),m_Shoulder,m_elbow,m_wrist);
-  public final InstantCommand pos2 = new InstantCommand(()->setPos(1),m_Shoulder,m_elbow,m_wrist);
-  public final InstantCommand pos3 = new InstantCommand(()->setPos(2),m_Shoulder,m_elbow,m_wrist);
-  public final InstantCommand pos4 = new InstantCommand(()->setPos(3),m_Shoulder,m_elbow,m_wrist);
-  public final InstantCommand pos5 = new InstantCommand(()->setPos(4),m_Shoulder,m_elbow,m_wrist);
-  public final InstantCommand pos6 = new InstantCommand(()->setPos(5),m_Shoulder,m_elbow,m_wrist);
-  public final InstantCommand pos7 = new InstantCommand(()->setPos(6),m_Shoulder,m_elbow,m_wrist);
+  public final InstantCommand pos1 = new InstantCommand(()->setPos(0),m_wrist, m_Shoulder,m_elbow);
+  public final InstantCommand pos2 = new InstantCommand(()->setPos(1),m_wrist, m_Shoulder,m_elbow);
+  public final InstantCommand pos3 = new InstantCommand(()->setPos(2),m_wrist, m_Shoulder,m_elbow);
+  public final InstantCommand pos4 = new InstantCommand(()->setPos(3),m_wrist, m_Shoulder,m_elbow);
+  public final InstantCommand pos5 = new InstantCommand(()->setPos(4),m_wrist, m_Shoulder,m_elbow);
+  public final InstantCommand pos6 = new InstantCommand(()->setPos(5),m_wrist, m_Shoulder,m_elbow);
+  public final InstantCommand pos7 = new InstantCommand(()->setPos(6),m_wrist, m_Shoulder,m_elbow);
   // public final InstantCommand pos = new InstantCommand(()->setPos(0),m_Shoulder,m_elbow,m_wrist);
   // public final InstantCommand pos = new InstantCommand(()->setPos(0),m_Shoulder,m_elbow,m_wrist);
   public final InstantCommand openClose = new InstantCommand(()->openClose() ,m_Claw);
@@ -102,7 +102,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     
-    m_DrivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
+    m_DrivetrainSubsystem.setDefaultCommand(m_driving = new DefaultDriveCommand(
       m_DrivetrainSubsystem,
       //For PS4/5 controller
       () -> -((smoothLogisticInput(m_driverController.getLeftX(), true)+ Robot.rotationSpeed) * SwerveShaninigans.MAX_VELOCITY_METERS_PER_SECOND * speedReduction),
@@ -116,9 +116,9 @@ public class RobotContainer {
 ));
     // Configure the trigger bindings
     configureBindings();
-  m_Shoulder.setDefaultCommand(m_sPidComLess);
-  m_elbow.setDefaultCommand(m_ePidComLess);
-  m_wrist.setDefaultCommand(m_wPidComLess);
+   m_Shoulder.setDefaultCommand(m_sPidComLess);
+   m_elbow.setDefaultCommand(m_ePidComLess);
+   m_wrist.setDefaultCommand(m_wPidComLess);
 
   }
 
@@ -177,15 +177,15 @@ public class RobotContainer {
     rb.onTrue(m_ZeroGyro);
     //home
     b5.onTrue(pos1);
-    //start
-    b6.onTrue(pos5);
-    //player
-    b7.onTrue(pos6);
+    // //start
+     b6.onTrue(pos5);
+    // //player
+     b7.onTrue(pos6);
 
-    //low mid high
-    b10.onTrue(pos2);
-    b9.onTrue(pos3);
-    b8.onTrue(pos4);
+    // //low mid high
+     b10.onTrue(pos2);
+     b9.onTrue(pos3);
+     b8.onTrue(pos4);
 
     //deactivate arms
     //b16.onTrue(m_DeactivateArms);
@@ -199,11 +199,11 @@ public class RobotContainer {
        Trigger leftBumper = m_driverController.L1();
 
        rightTrigger.onTrue(openClose); 
-       povUp.onTrue(pos4);
-        povLeft.onTrue(pos3);
-        povDown.onTrue(pos2);
-        povRight.onTrue(pos1);
-        leftBumper.onTrue(pos6);
+      //  povUp.onTrue(pos4);
+      //   povLeft.onTrue(pos3);
+      //   povDown.onTrue(pos2);
+      //   povRight.onTrue(pos1);
+      //   leftBumper.onTrue(pos6);
   }
   public void setPos(int position){
     if (position == 0){
@@ -213,7 +213,7 @@ public class RobotContainer {
       setAllAtHome(false);
       setAllPos(position);
     }
-    // setAllPos(position); 
+    setAllPos(position); 
     
   }
 

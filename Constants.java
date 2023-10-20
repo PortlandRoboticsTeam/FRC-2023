@@ -29,79 +29,24 @@ public final class Constants {
   public static final int wristEncoderPortNum = 7;
   public static final int elbowEncoderPortNum = 6;
   public static final int shoulderEncoderPortNum = 5;
-  // public static final int leftFrontDrivePortNum = 1;
-  // public static final int rightFrontDrivePortNum = 3;
-  // public static final int leftBackDrivePortNum = 5;
-  // public static final int rightBackDrivePortNum = 7;
-  // public static final int leftFrontTurnPortNum = 2;
-  // public static final int rightFrontTurnPortNum = 4;
-  // public static final int leftBackTurnPortNum = 6;
-  // public static final int rightBackTurnPortNum = 8;
-  // public static final int leftFrontEncoderPortNum = 1;
-  // public static final int rightFrontEncoderPortNum = 2;
-  // public static final int leftBackEncoderPortNum = 3;
-  // public static final int rightBackEncoderPortNum = 4;
-
-  // public static final boolean [] DriveEncoderReversed = {false,false,false,false};
-  // public static final boolean [] TurnEncoderReversed = {false,false,false,false};
-  // public static final boolean leftFrontAbsoluteEncoderReversed = false;
-  // public static final boolean rightFrontAbsoluteEncoderReversed = false;
-  // public static final boolean leftBackAbsoluteEncoderReversed = false;
-  // public static final boolean rightBackAbsoluteEncoderReversed = false;
-
-  // public static final double leftFrontAbsoluteEncoderOff = -1.856117;//Math.toRadians(286.347);
-  // public static final double rightFrontAbsoluteEncoderOff = -0.655010;//Math.toRadians(217.002);;
-  // public static final double leftBackAbsoluteEncoderOff = -1.030835;//Math.toRadians(27.686);
-  // public static final double rightBackAbsoluteEncoderOff = -2.686001;//Math.toRadians(256.113);
-
-  // public static final double MaxSpeedMetersPerSecond = 5880 / 60;
-
-  // public static final double drivingGearRatio = 6.75/1;
-  // public static final double turningGearRatio = 150/7;
-
-  // public static final double driveEncoderRotationToMeter = 3.0*42*drivingGearRatio;
-  // public static final double driveEncoderRPM2MetersPerSecend = driveEncoderRotationToMeter/60;
-  // public static final double turnEncoderRotationToRaiden = turningGearRatio*2*Math.PI;
-  // public static final double turnEncoderRPM2RadPerSecend = turnEncoderRotationToRaiden/60;
-
-  // public static final double pTurning = 0.5;
-  // public static final double iTurning = 0.0;
-  // public static final double dTurning = 0.0;
-
-  // public static final double phisicalMaxSpeedMetersPerSec = 1.0;
-
-  // public static final double deadband = 0.05;
-
-  // public static final double maxExeleration = 0.5;
-  // public static final double maxAngulerExeleration = 0.1;
-
-  // public static final double teleopMaxSpeedMetersPerSec = 0.5;
-  // public static final double teleopMaxAngulerSpeedRaidensPerSec = 2*Math.PI;
 
   public static final double trackWidth = 0.5207;
   public static final double weelbase = 0.4699;
-  // public static final SwerveDriveKinematics DRIVE_KINEMATICS =  new SwerveDriveKinematics(
-  //   new Translation2d(weelbase/2,-trackWidth/2),
-  //   new Translation2d(weelbase/2,trackWidth/2),
-  //   new Translation2d(-weelbase/2,-trackWidth/2),
-  //   new Translation2d(-weelbase/2,trackWidth/2));
-
-  // //public static final int fieldOrentedButtonIndex;
 
   public static final int driverxAxis = 1;
   public static final int driverYAxis = 0;
   public static final int driverRotAxis = 4;
 
   //pid stuff
-  public static final double wristP = 0.1;//09
+  public static final double wristP = 0.06;//09
   public static final double wristI = 0.0; 
   public static final double wristD = 0.01;//007 009
 
-  public static final double elbowP = 0.12;
+  public static final double elbowP = 0.1;
   public static final double elbowI = 0.0; 
   public static final double elbowD = 0.01;
   
-  public static final double shoulderP = 0.12;
+  public static final double shoulderP = 0.1;
   public static final double shoulderI = 0.0; 
   public static final double shoulderD = 0.01; 
 
@@ -138,15 +83,15 @@ public final class Constants {
   //home,0
   //pid angles
   public static final double wo = 336;
-  public static final double[] WAngels = {wo,wo+12,45,55,45,wo+23,wo,wo};
+  public static final double[] WAngels = {wo,wo+12,45,55,45,wo+23,45,wo};
 
   //elbow offset
   public static final double eo = 260;
-  public static final double[] EAngels = {eo-50,eo-51,eo+10,eo+74,eo-17,eo,eo};
+  public static final double[] EAngels = {eo-50,eo-51,eo+10,eo+74,eo-17,eo+10,eo};
 
   //shoulder offset
   private static final double so = 0;
-  public static final double[] SAngels = {so-19,so+30,so+40,so+90,so,so,so};//116s
+  public static final double[] SAngels = {so-19,so+30,so+40,so+90,so,so+40,so};//116s
   
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0 ;
@@ -224,4 +169,3 @@ public final class Constants {
   
 
 }
-

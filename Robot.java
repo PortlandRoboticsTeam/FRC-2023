@@ -110,8 +110,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     RobotContainer.m_wrist.setDefaultCommand(m_robotContainer.m_wPidComLess);
-    RobotContainer.m_elbow.setDefaultCommand(m_robotContainer.m_ePidComLess);
-    RobotContainer.m_Shoulder.setDefaultCommand(m_robotContainer.m_sPidComLess);
+    // RobotContainer.m_elbow.setDefaultCommand(m_robotContainer.m_ePidComLess);
+    // RobotContainer.m_Shoulder.setDefaultCommand(m_robotContainer.m_sPidComLess);
     // double speed = mAutoBalance.autoBalanceRoutine();
     // m_robotContainer.m_DrivetrainSubsystem.drive(new ChassisSpeeds(0,speed,0));
   }
